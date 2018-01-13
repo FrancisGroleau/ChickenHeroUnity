@@ -13,6 +13,11 @@ namespace Assets.Scripts
         public float ActualCannonAngle { get; set; }
         public Vector2 Target { get; set; }
 
+
+        public Vector2 LootPosition { get; set; }
+        public float Points { get; set; }
+
+
         private Storage() {}
 
         public static Storage Instance

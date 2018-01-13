@@ -85,7 +85,9 @@ public class GameScript : MonoBehaviour {
 
                 Assets.Scripts.Storage.Instance.Angle = Mathf.RoundToInt(_angle);
                 Assets.Scripts.Storage.Instance.Target = target;
-                Assets.Scripts.Storage.Instance.ActualCannonAngle = 0f;        
+                Assets.Scripts.Storage.Instance.ActualCannonAngle = 0f;
+
+                _cannonPrefab.GetComponent<Cannnon>().RotateTowardsTarget(); 
             }
         }
     }

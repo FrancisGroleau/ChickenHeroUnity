@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chicken : MonoBehaviour {
+public class Chicken : MonoBehaviour
+{
 
+    public GameObject _pokPrefab;
+    public GameObject _lootFactoryPrefab;
 
     private Rigidbody2D _body;
     public float MoveSpeed { get; set; }
@@ -13,16 +17,16 @@ public class Chicken : MonoBehaviour {
     private Vector2 _axis;
     private Vector2 _rigthOfScreen;
     private Animator _animator;
-    private BoxCollider2D _boxCollider2D;
+
+    private ChickenLootFactory _lootFactory;
 
     private bool isDead = false;
 
-    void Start () {
+    void Start()
+    {
         _animator = GetComponent<Animator>();
         _animator.SetBool("IsDead", false);
 
-        _boxCollider2D = GetComponent<BoxCollider2D>();
-       
         _body = GetComponent<Rigidbody2D>();
         _position = transform.position;
         _axis = transform.up;
@@ -35,13 +39,18 @@ public class Chicken : MonoBehaviour {
         //set the rigth of the screen
         Camera camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         _rigthOfScreen = camera.ViewportToWorldPoint(new Vector3(1, 1, camera.nearClipPlane));
+
+        Instantiate(_lootFactoryPrefab);
+
+        _lootFactory = _lootFactoryPrefab.GetComponent<ChickenLootFactory>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         Move();
         CheckIfOffscreen();
-	}
+    }
 
 
     private void Move()
@@ -70,26 +79,25 @@ public class Chicken : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Cannonball(Clone)")
+        if (collision.gameObject.tag == "cannonball")
         {
             isDead = true;
             _animator.SetBool("IsDead", true);
-            Destroy(collision.gameObject);
             _body.angularVelocity = 0f;
             _body.velocity = Vector2.zero;
+
+            Storage.Instance.LootPosition = this.transform.position;
+            _lootFactory.CreateChickenLoot();
         }
     }
+
 
     public void DeathAnimationDone()
     {
         _animator.SetBool("IsDead", false);
-    }
-
-    public void PokAnimationDone()
-    {
-        ReplaceChickenToRigthOfScreen();
+        Instantiate(_pokPrefab, this.transform.position, Quaternion.identity);
         isDead = false;
+        ReplaceChickenToRigthOfScreen();
     }
-
 
 }

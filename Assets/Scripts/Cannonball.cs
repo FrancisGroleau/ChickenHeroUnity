@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,18 +12,22 @@ public class Cannonball : MonoBehaviour
 
     private Rigidbody2D _body;
 
+
     // Use this for initialization
     void Start()
     {
         _body = GetComponent<Rigidbody2D>();
         Vector2 direction = (Target - Position).normalized;
         _body.AddForce(direction * (Speed * Time.deltaTime));
+
+        
+
+        StartCoroutine(RotateObject(360, Vector3.forward, 0.10f));
     }
     // Update is called once per frame
     void Update()
     {
         CheckForOutOfScreen();
-        Spin();
     }
     private void CheckForOutOfScreen()
     {
@@ -31,12 +36,39 @@ public class Cannonball : MonoBehaviour
             Destroy(this.gameObject);
     }
 
-    private void Spin()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-         //Quaternion rotation = Quaternion.AngleAxis(10f, Vector3.forward);
-         //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 6f * Time.deltaTime);
+        if(collision.gameObject.tag == "chicken")
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
-        transform.RotateAround(transform.position, Vector3.forward, 10);
+    IEnumerator RotateObject(float angle, Vector3 axis, float inTime)
+    {
+        // calculate rotation speed
+        float rotationSpeed = angle / inTime;
 
+        while (true)
+        {
+            // save starting rotation position
+            Quaternion startRotation = transform.rotation;
+
+            float deltaAngle = 0;
+
+            // rotate until reaching angle
+            while (deltaAngle < angle)
+            {
+                deltaAngle += rotationSpeed * Time.deltaTime;
+                deltaAngle = Mathf.Min(deltaAngle, angle);
+
+                transform.rotation = startRotation * Quaternion.AngleAxis(deltaAngle, axis);
+
+                yield return null;
+            }
+
+            // delay here
+            //yield return new WaitForSeconds(1);
+        }
     }
 }

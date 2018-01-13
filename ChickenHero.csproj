@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.6.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -81,12 +79,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AnimateMuzzleFlash.cs" />
+    <Compile Include="Assets\Scripts\Background.cs" />
     <Compile Include="Assets\Scripts\Cannnon.cs" />
     <Compile Include="Assets\Scripts\Cannonball.cs" />
     <Compile Include="Assets\Scripts\Chicken.cs" />
+    <Compile Include="Assets\Scripts\ChickenLootFactory.cs" />
     <Compile Include="Assets\Scripts\GameScript.cs" />
-    <Compile Include="Assets\Scripts\MovingObject.cs" />
+    <Compile Include="Assets\Scripts\Loot.cs" />
+    <Compile Include="Assets\Scripts\Nugget.cs" />
+    <Compile Include="Assets\Scripts\Pok.cs" />
     <Compile Include="Assets\Scripts\Storage.cs" />
+    <Compile Include="Assets\Scripts\Thigh.cs" />
+    <Compile Include="Assets\Scripts\Whole.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
